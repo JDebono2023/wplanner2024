@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('progress', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->float('current_weight');
+            $table->enum('unit_current', ['imperial', 'metric']);
+            $table->float('goal_weight');
+            $table->enum('unit_goal', ['imperial', 'metric']);
+            $table->float('hips');
+            $table->float('waist');
+            $table->float('chest');
+            $table->float('bmi')->nullable();
+            $table->string('photo')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('new_progress');
+    }
+};
