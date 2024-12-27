@@ -1,5 +1,6 @@
 <?php
 
+use Filament\Pages\Dashboard;
 use Laravel\Fortify\Features;
 
 return [
@@ -73,7 +74,8 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => '/wplanner',
+    // 'home' => route('filament.wplanner.pages.dashboard'),
 
     /*
     |--------------------------------------------------------------------------

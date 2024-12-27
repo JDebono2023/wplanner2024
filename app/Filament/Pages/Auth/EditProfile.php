@@ -25,7 +25,6 @@ class EditProfile extends BaseEditProfile
                             ->required(),
                         TextInput::make('height')
                             ->required(),
-
                     ])
                     ->columns(3),
                 Section::make('Password')

@@ -63,8 +63,8 @@ class LibraryResource extends Resource
                                     ->required()
                             ]),
                         Select::make('type_m')
-                            ->label('Main Type')
-                            ->helperText(new HtmlString('Select or create a main workout type'))
+                            ->label('Category')
+                            ->helperText(new HtmlString('Select or create a primary activity category'))
                             ->relationship('mainTypes', 'name')
                             ->searchable(['name'])
                             ->preload()
@@ -78,8 +78,8 @@ class LibraryResource extends Resource
                                     ->required()
                             ]),
                         Select::make('type_s')
-                            ->label('Secondary Type')
-                            ->helperText(new HtmlString('Select or create a secondary workout type'))
+                            ->label('Subcategory')
+                            ->helperText(new HtmlString('Select or create a workout subcategory'))
                             ->relationship('secondTypes', 'name')
                             ->searchable(['name'])
                             ->preload()
@@ -109,9 +109,11 @@ class LibraryResource extends Resource
                     ->titlePrefixedWithLabel(false)
                     ->collapsible(),
                 Group::make('mainTypes.name')
+                    ->label('Category')
                     ->titlePrefixedWithLabel(false)
                     ->collapsible(),
                 Group::make('secondTypes.name')
+                    ->label('Subcategory')
                     ->titlePrefixedWithLabel(false)
                     ->collapsible(),
             ])
@@ -138,9 +140,9 @@ class LibraryResource extends Resource
                             ->icon('heroicon-s-globe-americas')
                             ->label('Source'),
                         TextColumn::make('mainTypes.name')
-                            ->label('Main Type'),
+                            ->label('Category'),
                         TextColumn::make('secondTypes.name')
-                            ->label('Secondary Type')
+                            ->label('Subcategory')
                     ]),
                 ])->collapsible(),
             ])
