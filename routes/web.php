@@ -1,8 +1,9 @@
 <?php
 
-use Filament\Pages\Auth\Login;
 use Filament\Pages\Dashboard;
+use Filament\Facades\Filament;
 
+use Filament\Pages\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -16,11 +17,11 @@ Route::get('/', function () {
     // Check if the user is authenticated
     if (auth()->check()) {
         // Redirect authenticated users to the Filament dashboard
-        return redirect()->route('filament.wplanner.pages.dashboard');
+        return redirect(Filament::getHomeUrl());
     }
 
-    // Show the login page for guests
-    return app(Login::class);
+    // Redirect guests to the Filament login page
+    return redirect(Filament::getLoginUrl());
 });
 
 Route::middleware([
@@ -32,5 +33,5 @@ Route::middleware([
     //     return view('dashboard');
     // })->name('dashboard');
 
-    Route::get('/wplanner', Dashboard::class)->name('filament.wplanner.pages.dashboard');
+    // Route::get('/wplanner', Dashboard::class)->name('filament.wplanner.pages.dashboard');
 });

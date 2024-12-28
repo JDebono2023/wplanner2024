@@ -7,6 +7,7 @@ use Filament\Tables;
 use App\Models\Progress;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Grouping\Group;
 use Filament\Forms\Components\Hidden;
@@ -16,9 +17,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\ProgressResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProgressResource\RelationManagers;
@@ -42,8 +45,8 @@ class ProgressResource extends Resource
                         Select::make('unit_current')
                             ->label('Unit')
                             ->options([
-                                'imperial' => 'Imperial (lbs)',
-                                'metric' => 'Metric (kg)',
+                                'imperial' => 'lbs',
+                                'metric' => 'kg',
                             ])
                             ->default('metric')
                             ->required(),
@@ -51,8 +54,8 @@ class ProgressResource extends Resource
                         Select::make('unit_goal')
                             ->label('Unit')
                             ->options([
-                                'imperial' => 'Imperial (lbs)',
-                                'metric' => 'Metric (kg)',
+                                'imperial' => 'lbs',
+                                'metric' => 'kg',
                             ])
                             ->default('metric')
                             ->required(),
@@ -65,8 +68,8 @@ class ProgressResource extends Resource
                         Select::make('unit_height')
                             ->label('Height Unit')
                             ->options([
-                                'imperial' => 'Imperial (inches)',
-                                'metric' => 'Metric (meters)',
+                                'imperial' => 'in',
+                                'metric' => 'm',
                             ])
                             ->default('metric')
                             ->required(),
@@ -87,43 +90,59 @@ class ProgressResource extends Resource
                     ->schema([
                         FileUpload::make('photo'),
                     ])
-                    ->columns(2),
+                    ->columns(1),
                 Hidden::make('user_id')->dehydrateStateUsing(fn($state) => auth()->id())
             ]);
     }
 
+
+
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                CreateAction::make()
+                    ->label('Add New')
+                    ->createAnother(false),
 
+            ])
             ->columns([
 
                 TextColumn::make('created_at')
                     ->date()
                     ->sortable()
                     ->label('Date'),
-                TextColumn::make('current_weight'),
-                TextColumn::make('unit_current'),
+                TextColumn::make('current_weight')
+                    ->label('Weight')
+                    ->formatStateUsing(function ($record) {
+                        // Determine the unit based on the `unit_current` value
+                        $unit = $record->unit_current === 'metric' ? 'm' : 'lb';
 
-                TextColumn::make('goal_weight'),
-                TextColumn::make('unit_goal'),
-                TextColumn::make('height')
-                    ->label('Height'),
-                TextColumn::make('unit_height')
-                    ->label('Height Unit'),
+                        return "{$record->current_weight} {$unit}";
+                    }),
+                TextColumn::make('hips'),
+                TextColumn::make('waist'),
+                TextColumn::make('chest'),
+                // TextColumn::make('goal_weight'),
+                // TextColumn::make('unit_goal'),
+                // TextColumn::make('height')
+                //     ->label('Height'),
+                // TextColumn::make('unit_height')
+                //     ->label('Height Unit'),
                 TextColumn::make('bmi')
                     ->label('BMI'),
 
-                // Stack::make([
-
-                //     TextColumn::make('hips'),
-                //     TextColumn::make('waist'),
-                //     TextColumn::make('chest'),
-                // ]),
-                // ImageColumn::make('before_photo'),
                 ImageColumn::make('photo')
                     ->label('Photo')
-                    ->height(75),
+                    ->defaultImageUrl(url('storage/images/wplanner_noimg.png'))
+                    ->height(50)
+                // ->formatStateUsing(function ($record) {
+                //     return '<img src="' . $record->photo . '" 
+                //                 alt="Image" 
+                //                 class="w-16 h-16 object-cover cursor-pointer" 
+                //                 onclick="Livewire.emit(\'openImageModal\', \'' . $record->photo . '\')" />';
+                // })
+                // ->html(), // Enable HTML rendering,
 
 
             ])

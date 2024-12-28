@@ -20,6 +20,7 @@ use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
@@ -104,6 +105,11 @@ class LibraryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                CreateAction::make()
+                    ->label('Create New Workout')
+                    ->createAnother(false),
+            ])
             ->groups([
                 Group::make('sources.name')
                     ->titlePrefixedWithLabel(false)

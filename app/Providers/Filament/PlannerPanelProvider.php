@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\CustomLogin;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -10,6 +9,7 @@ use Filament\PanelProvider;
 use Filament\Facades\Filament;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Colors\Color;
+use App\Filament\Pages\Auth\CustomLogin;
 use App\Filament\Pages\Auth\EditProfile;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -20,6 +20,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class PlannerPanelProvider extends PanelProvider
@@ -39,15 +40,21 @@ class PlannerPanelProvider extends PanelProvider
             ->emailVerification()
             ->profile(EditProfile::class, isSimple: false)
             ->breadcrumbs(false)
+            ->viteTheme('resources/css/filament/wplanner/theme.css')
             ->colors([
                 // 'danger' => Color::Rose,
-                // 'gray' => Color::Gray,
+                // 'gray' => '#545454',
                 // 'info' => Color::Blue,
-                'primary' => '#0369a1',
+                'primary' => '#145da0',
+                'blue' => Color::Blue,
+
                 // 'success' => Color::Emerald,
                 // 'warning' => Color::Orange,
             ])
             ->font('Poppins')
+            ->plugins([
+                FilamentApexChartsPlugin::make()
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -55,8 +62,8 @@ class PlannerPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

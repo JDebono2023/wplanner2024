@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Source;
 use App\Models\Schedule;
@@ -24,6 +25,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TimePicker;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
@@ -94,7 +96,7 @@ class ScheduleResource extends Resource
                                     ->schema([
                                         Select::make('type_m')
                                             ->label('')
-                                            ->helperText(new HtmlString('Select or create a main workout type'))
+                                            ->helperText(new HtmlString('Select or create a media source'))
                                             ->relationship('mainTypes', 'name')
                                             ->searchable(['name'])
                                             ->preload()
@@ -115,7 +117,7 @@ class ScheduleResource extends Resource
                                     ->schema([
                                         Select::make('type_s')
                                             ->label('')
-                                            ->helperText(new HtmlString('Select or create a secondary workout type'))
+                                            ->helperText(new HtmlString('Select or create a primary activity category'))
                                             ->relationship('secondTypes', 'name')
                                             ->searchable(['name'])
                                             ->preload()
@@ -153,6 +155,12 @@ class ScheduleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                CreateAction::make()
+                    ->label('Schedule A Workout')
+                    ->createAnother(false),
+
+            ])
             // grouping for primary sort to display schedule items by date
             ->groups([
                 Group::make('library.name')
@@ -168,7 +176,8 @@ class ScheduleResource extends Resource
                 // split column display
                 Split::make([
                     ImageColumn::make('library.image')
-                        ->height(50),
+                        ->height(50)
+                        ->defaultImageUrl(url('storage/images/wplanner_noimg.png')),
                     Stack::make([
                         TextColumn::make('library.name')
                             ->searchable(),
@@ -192,11 +201,11 @@ class ScheduleResource extends Resource
                 SelectFilter::make('Name')
                     ->relationship('library', 'name')
                     ->preload(),
-                SelectFilter::make('Main Type')
+                SelectFilter::make('Category')
                     ->relationship('library.mainTypes', 'name')
                     ->searchable()
                     ->preload(),
-                SelectFilter::make('Second Type')
+                SelectFilter::make('Subcategory')
                     ->relationship('library.secondTypes', 'name')
                     ->searchable()
                     ->preload()

@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "wplanner",
+    "name": "laravel/laravel",
     "type": "project",
     "description": "Workout planner.",
     "keywords": [
@@ -16,6 +16,7 @@
         "laravel/jetstream": "^5.3",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "leandrocfe/filament-apex-charts": "^3.1",
         "livewire/livewire": "^3.0"
     },
     "require-dev": {
