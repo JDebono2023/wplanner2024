@@ -65,6 +65,11 @@ class LibraryResource extends Resource
                                         'unique' => 'This :attribute already exists.',
                                     ])
                                     ->required()
+                            ])
+                            ->editOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->unique(table: TypeSecond::class),
+
                             ]),
                         Select::make('type_m')
                             ->label('Category')
@@ -80,6 +85,11 @@ class LibraryResource extends Resource
                                         'unique' => 'This :attribute already exists.',
                                     ])
                                     ->required()
+                            ])
+                            ->editOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->unique(table: TypeSecond::class),
+
                             ]),
                         Select::make('type_s')
                             ->label('Subcategory')
@@ -94,6 +104,11 @@ class LibraryResource extends Resource
                                         'unique' => 'This :attribute already exists.',
                                     ])
                                     ->required()
+                            ])
+                            ->editOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->unique(table: TypeSecond::class),
+
                             ]),
                         FileUpload::make('image')
                             ->label('Image')
@@ -126,6 +141,7 @@ class LibraryResource extends Resource
                     ->titlePrefixedWithLabel(false)
                     ->collapsible(),
             ])
+            ->groupingSettingsInDropdownOnDesktop()
             ->defaultGroup(Group::make('mainTypes.name')
                 ->titlePrefixedWithLabel(false)
                 ->collapsible())

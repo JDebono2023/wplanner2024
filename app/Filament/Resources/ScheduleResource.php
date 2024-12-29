@@ -42,10 +42,12 @@ class ScheduleResource extends Resource
     protected static ?string $modelLabel = 'Schedule';
     protected static ?int $navigationSort = 2;
 
-    // collect the records from today onwards
+    // collect the records from today onwards for the logged in user
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('date', '>=', Carbon::now()->toDateString());
+        return parent::getEloquentQuery()
+            ->where('user_id', auth()->id()) // Filter by logged-in user
+            ->where('date', '>=', Carbon::now()->toDateString()); // Filter by today onwards
     }
 
     public static function form(Form $form): Form
@@ -178,6 +180,7 @@ class ScheduleResource extends Resource
                     ->titlePrefixedWithLabel(false)
                     ->collapsible()
             ])
+            ->groupingSettingsInDropdownOnDesktop()
             ->defaultGroup(Group::make('date')
                 ->date('M-d-o')
                 ->titlePrefixedWithLabel(false)

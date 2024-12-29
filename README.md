@@ -8,6 +8,14 @@ and, the date you have recorded this video.
 
 TODO
 
+How to run this project:
+- composer install
+- npm install
+- set up .env file
+- php artisan storage:link
+- php artisan migrate 
+
+
 should be minimally multiple paragraphs in length, 
 and should explain what your project is, 
 Purpose
@@ -17,11 +25,19 @@ Track personal progress
 
 what each of the files you wrote for the project contains and does, 
 Set-Up: Resources
-profile - email, name, password, height, age, goal weight
-Progress - tracking variable data for stats: current weight, basic measurements, photos, BMI calculated on the fly
-scheduler - create and manage workouts scheduled, add new workout types to the library while creating a scheduled plan
-library: name, source, main category, subcategory, image of workout, source and type duplication not permitted
-dashboard: display workouts planned for the day, active progress widgets for at a glance info that update based on latest entry
+
+Profile - email, name, password, height, age, goal weight -> customized by extending the base user profile data with the addtional height, age and goal weight
+
+Progress - tracking variable data for stats: current weight, basic measurements, photos, BMI calculated on the fly, view by auth user
+
+Scheduler - create and manage workouts scheduled, add new workout types to the library while creating a scheduled plan, view by auth user, only display by current date via laravel Carbon date/time functions
+
+Library: name, source, main category, subcategory, image of workout, source and type duplication not permitted
+- users can create new workouts, add and modify category, subcategory and source data for each library item on the spot
+
+Dashboard: display workouts planned for the day, active progress widgets for at a glance info that update based on latest entry
+
+Images: master default image created as a stand in when no images are added. Default is grabbed programatically from app storage, rather than populating the DB
 
 Widgets
 
@@ -42,6 +58,7 @@ https://laravel.com/docs/11.x
 https://filamentphp.com/docs
 https://tailwindcss.com/docs/installation
 https://www.php.net/manual/en/datetime.format.php
+https://carbon.nesbot.com/docs/
 https://www.myfitnesspal.com/
 https://www.diabetes.ca/resources/tools-resources/body-mass-index-(bmi)-calculator
 

@@ -38,6 +38,11 @@ class ProgressResource extends Resource
     protected static ?string $modelLabel = 'My Progress';
     protected static ?int $navigationSort = 3;
 
+    // collect the records from the logged in user
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->id());
+    }
 
     public static function form(Form $form): Form
     {
