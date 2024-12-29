@@ -11,9 +11,11 @@ use Filament\Forms\Form;
 use App\Models\TypeSecond;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rule;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Grouping\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -25,6 +27,7 @@ use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Illuminate\Database\Eloquent\Builder;
+use LaraZeus\Popover\Tables\PopoverColumn;
 use App\Filament\Resources\LibraryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LibraryResource\RelationManagers;
@@ -127,36 +130,25 @@ class LibraryResource extends Resource
                 ->titlePrefixedWithLabel(false)
                 ->collapsible())
             ->columns([
-                // split column display
                 Split::make([
                     ImageColumn::make('image')
                         ->label('')
                         ->defaultImageUrl(url('storage/images/wplanner_noimg.png'))
-                        ->height(50),
-                    Stack::make([
-                        TextColumn::make('name')
-                            ->label('Workout')
-                            ->searchable(),
-                    ]),
-                ]),
-                // make extra details collapsible
-                Panel::make([
-                    Split::make([
-                        TextColumn::make('sources.name')
-                            ->icon('heroicon-s-globe-americas')
-                            ->label('Source'),
-                        TextColumn::make('mainTypes.name')
-                            ->label('Category'),
-                        TextColumn::make('secondTypes.name')
-                            ->label('Subcategory')
-                    ]),
-                ])->collapsible(),
+                        ->height(50)
+                        ->grow(false),
+                    TextColumn::make('name')
+                        ->label('Workout')
+                        ->searchable(),
+                ])->from('sm'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -19,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Illuminate\Database\Eloquent\Builder;
@@ -83,52 +84,55 @@ class ProgressResource extends Resource
                 CreateAction::make()
                     ->label('Add New')
                     ->createAnother(false),
-
             ])
             ->columns([
+                Split::make([
+                    ImageColumn::make('photo')
+                        ->label('Photo')
+                        ->defaultImageUrl(url('storage/images/wplanner_noimg.png'))
+                        ->height(50)
+                        ->grow(false),
+                    Stack::make([
+                        Split::make([
+                            TextColumn::make('created_at')
+                                ->date()
+                                ->sortable()
+                                ->label('Date'),
+                            TextColumn::make('current_weight')
+                                ->label('Weight')
+                                ->formatStateUsing(function ($record) {
+                                    $unit = $record->unit_current === 'metric' ? 'm' : 'lb';
+                                    return "{$record->current_weight} {$unit}";
+                                }),
+                            TextColumn::make('bmi')
+                                ->formatStateUsing(function ($record) {
+                                    return "BMI: {$record->bmi}";
+                                }),
+                        ])->from('sm'),
+                    ]),
+                ]),
 
-                TextColumn::make('created_at')
-                    ->date()
-                    ->sortable()
-                    ->label('Date'),
-                TextColumn::make('current_weight')
-                    ->label('Weight')
-                    ->formatStateUsing(function ($record) {
-                        // Determine the unit based on the `unit_current` value
-                        $unit = $record->unit_current === 'metric' ? 'm' : 'lb';
+                Panel::make([
+                    Split::make([
+                        TextColumn::make('hips')
+                            ->formatStateUsing(function ($record) {
+                                return "H: {$record->hips}";
+                            }),
+                        TextColumn::make('waist')->formatStateUsing(function ($record) {
+                            return "W: {$record->waist}";
+                        }),
+                        TextColumn::make('chest')->formatStateUsing(function ($record) {
+                            return "C: {$record->chest}";
+                        }),
 
-                        return "{$record->current_weight} {$unit}";
-                    }),
-                TextColumn::make('hips'),
-                TextColumn::make('waist'),
-                TextColumn::make('chest'),
-                // TextColumn::make('goal_weight'),
-                // TextColumn::make('unit_goal'),
-                // TextColumn::make('height')
-                //     ->label('Height'),
-                // TextColumn::make('unit_height')
-                //     ->label('Height Unit'),
-                TextColumn::make('bmi')
-                    ->label('BMI'),
+                    ]),
 
-                ImageColumn::make('photo')
-                    ->label('Photo')
-                    ->defaultImageUrl(url('storage/images/wplanner_noimg.png'))
-                    ->height(50)
-                // ->formatStateUsing(function ($record) {
-                //     return '<img src="' . $record->photo . '" 
-                //                 alt="Image" 
-                //                 class="w-16 h-16 object-cover cursor-pointer" 
-                //                 onclick="Livewire.emit(\'openImageModal\', \'' . $record->photo . '\')" />';
-                // })
-                // ->html(), // Enable HTML rendering,
+                ])->collapsible(),
 
-
+            ])->contentGrid([
+                'md' => 1,
             ])
-            // ->contentGrid([
-            //     'md' => 1,
-            //     'xl' => 1,
-            // ])
+
             ->filters([
                 //
             ])
