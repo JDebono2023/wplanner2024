@@ -1,10 +1,7 @@
 
 <h1 style="text-align:center">WPLANNER</h1> 
 
-![alt](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6 "WPlanner Logo" | align=center)
-
-<img src="[https://github.com/darsaveli/Mariam/blob/main/1479814528_webarebears.gif](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6)" align="center">
-
+![alt](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6 "WPlanner Logo" )
 
 Name: Jennifer Debono
 
