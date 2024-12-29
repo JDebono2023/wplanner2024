@@ -3,7 +3,8 @@
 
 ![alt](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6 "WPlanner Logo")
 
-https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6
+<img src="[https://github.com/darsaveli/Mariam/blob/main/1479814528_webarebears.gif](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6)" align="center">
+
 
 Name: Jennifer Debono
 
