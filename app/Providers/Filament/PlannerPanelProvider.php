@@ -7,6 +7,7 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Facades\Filament;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Colors\Color;
 use App\Filament\Pages\Auth\CustomLogin;
@@ -46,6 +47,9 @@ class PlannerPanelProvider extends PanelProvider
                 'primary' => '#145da0',
             ])
             ->font('Poppins')
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label(fn() => auth()->user()->name ?? 'Profile'),
+            ])
             ->plugins([
                 // FilamentApexChartsPlugin::make(),
             ])

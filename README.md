@@ -44,7 +44,14 @@ Widgets
 Set-Up: DB & Tables
 - why sqlite3 vs mySqQL
 
-Web Routing & overrides
+Web Routing & Session overrides
+- app/config/session.php : Session Lifetime adjusted to 5s, session cleared when browser window is closed, session storage in DB (default)
+
+security
+- Laravel Jetstream: package for login, registration, email verification, session management - 2 factor auth is currently disabled
+- filament automates the process, but requires production set up in the .env file for full configuration
+- dev environment option: Mailtrap.io https://mailtrap.io
+- when accessing resources/pages, non authenticated users recieve a 404 error
 
 and if you debated certain design choices, explaining why you made them. 
  - popover
@@ -56,6 +63,7 @@ Ensure you allocate sufficient time and energy to writing a README.md that docum
 Resources Used:
 https://laravel.com/docs/11.x
 https://filamentphp.com/docs
+https://jetstream.laravel.com/introduction.html
 https://tailwindcss.com/docs/installation
 https://www.php.net/manual/en/datetime.format.php
 https://carbon.nesbot.com/docs/
