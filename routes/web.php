@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('auth.login');
 // });
 
-// Route::get('/', Login::class)
-//     ->middleware('guest');
-
 Route::get('/', function () {
     // Check if the user is authenticated
     if (auth()->check()) {
@@ -32,6 +29,4 @@ Route::middleware([
     // Route::get('/dashboard', function () {
     //     return view('dashboard');
     // })->name('dashboard');
-
-    // Route::get('/wplanner', Dashboard::class)->name('filament.wplanner.pages.dashboard');
 });
