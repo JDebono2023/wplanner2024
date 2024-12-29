@@ -1,3 +1,4 @@
+
 <h1 style="text-align:center">WPLANNER</h1> 
 
 <p style="text-align:center">![alt](https://drive.google.com/file/d/1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6 "WPlanner Logo")</p> 
@@ -43,7 +44,9 @@ Insipred by a need to organize, stopping wasting time and paper, the app offers 
 
 In this project, I opted to use a newer famework, Filament. In my regular development, I use Laravel with Livewire, which requires manually programming controllers and views for the front and back end. In an effort to improve development speed, while providing quiality UX, Filament offered an opportunity to expand development skills by using a all-in-one development framework.
 
-##### <ins>Resource Pages
+---
+
+#### <ins>Resource Pages
 
 <ins>Dashboard
 
@@ -65,8 +68,8 @@ This section allows users to track various fitness metrics, including current we
 
 The workout library stores detailed information for each workout, including name, source, main category, subcategory, and an optional image. Source and type duplication are not allowed to maintain data integrity. Users can create new workouts, and modify categories, subcategories, and sources directly from this section, ensuring flexibility and efficiency.
 
-
-##### <ins>Widgets
+---
+#### <ins>Widgets
 
 Three custom widgets have been developed to enhance the user experience. Each widget provides real-time values, a compact chart to visualize trends over time, and descriptive text to highlight progress and reflect changes in the data, making it easy for users to monitor and stay on track with their fitness goals.
 
@@ -82,10 +85,9 @@ Highlights the most recent measurement data, providing quick access to key stats
 
 Leverages user profile data, including goal weight, and combines it with progress entries to display the current weight and dynamically calculated BMI. The BMI is computed using the height from the user profile and the latest weight data from progress records.
 
- 
+ ---
 
-
-##### <ins>Database
+#### <ins>Database
 
 Default installation of Laravel V.11 uses Sqlite. A built in database, for the scope and scale of this project seemed reasonable, rather than my standard development which uses an external MySQL databse. The Laravel and Jetstream frameworks auto create user tables along with authentication and session tables.
 
@@ -107,12 +109,14 @@ Contains workout name, source, category, subcategory and images. Publically visi
 5. type_seconds: (subcategory names)
 6. sources: (workout source names)
 
-##### <ins>Web Routing & Session Overrides & Security
+---
+#### <ins>Web Routing & Session Overrides & Security
 - Customized via app/routes/web.php: default laravel routing was overridden to allow a better user experince by providing redirects to the developed Filament based pages
 - Customized via app/config/session.php: Session Lifetime adjusted to 5s, session cleared when browser window is closed, session storage in DB (default)
 - when accessing resources/pages, non authenticated users recieve a 404 error
 
-##### <ins>Future Feature Releases
+---
+#### <ins>Future Feature Releases
 - data management: AWS S3
 - reward screen/event for reaching goal weight target
 - include: BF %
