@@ -7,8 +7,9 @@ use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\ProgressResource;
-use App\Filament\Widgets\UserStatsOverview;
+use App\Filament\Widgets\UserWeightOverview;
 use Filament\Infolists\Components\TextEntry;
+use App\Filament\Widgets\UserMeasurementsOverview;
 
 class ListProgress extends ListRecords
 {
@@ -27,7 +28,8 @@ class ListProgress extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            UserStatsOverview::class,
+            UserWeightOverview::class,
+            UserMeasurementsOverview::class,
         ];
     }
 }

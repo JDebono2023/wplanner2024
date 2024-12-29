@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Grouping\Group;
+use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -21,6 +22,7 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\ProgressResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,67 +37,44 @@ class ProgressResource extends Resource
     protected static ?string $modelLabel = 'My Progress';
     protected static ?int $navigationSort = 3;
 
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Section::make('General')
                     ->schema([
-                        TextInput::make('current_weight'),
-                        Select::make('unit_current')
+                        TextInput::make('current_weight')
+                            ->label('Current Weight')
+                            ->extraAttributes(['class' => 'p-0 m-0']),
+                        ToggleButtons::make('unit_current')
                             ->label('Unit')
                             ->options([
                                 'imperial' => 'lbs',
                                 'metric' => 'kg',
                             ])
                             ->default('metric')
-                            ->required(),
-                        TextInput::make('goal_weight'),
-                        Select::make('unit_goal')
-                            ->label('Unit')
-                            ->options([
-                                'imperial' => 'lbs',
-                                'metric' => 'kg',
-                            ])
-                            ->default('metric')
-                            ->required(),
-                        TextInput::make('height')
-                            ->label('Height')
-                            ->required()
-                            ->numeric()
-                            ->helperText('Enter height value.'),
+                            ->grouped(),
 
-                        Select::make('unit_height')
-                            ->label('Height Unit')
-                            ->options([
-                                'imperial' => 'in',
-                                'metric' => 'm',
-                            ])
-                            ->default('metric')
-                            ->required(),
-                        TextInput::make('bmi')
-                            ->label('BMI')
-                            ->disabled()
-                            ->helperText('BMI is calculated automatically.'),
                     ])
-                    ->columns(4),
+                    ->aside(),
                 Section::make('Measurements')
+                    ->description('Inches (in)')
                     ->schema([
                         TextInput::make('hips'),
                         TextInput::make('waist'),
                         TextInput::make('chest'),
                     ])
-                    ->columns(3),
+                    ->aside(),
                 Section::make('Photos')
                     ->schema([
                         FileUpload::make('photo'),
                     ])
-                    ->columns(1),
-                Hidden::make('user_id')->dehydrateStateUsing(fn($state) => auth()->id())
+                    ->aside(),
+                Hidden::make('user_id')->dehydrateStateUsing(fn($state) => auth()->id()),
+                Hidden::make('bmi'),
             ]);
     }
-
-
 
     public static function table(Table $table): Table
     {

@@ -4,8 +4,11 @@ namespace App\Filament\Pages\Auth;
 
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
 
 class EditProfile extends BaseEditProfile
@@ -18,22 +21,44 @@ class EditProfile extends BaseEditProfile
     {
         return $form
             ->schema([
-                Section::make('Your Details')
+                Section::make('Your Info')
                     ->schema([
                         $this->getNameFormComponent(),
-                        TextInput::make('age')
-                            ->required(),
-                        TextInput::make('height')
-                            ->required(),
-                    ])
-                    ->columns(3),
-                Section::make('Password')
-                    ->schema([
                         $this->getEmailFormComponent(),
                         $this->getPasswordFormComponent(),
                         $this->getPasswordConfirmationFormComponent(),
+
                     ])
-                    ->columns(2),
+                    ->aside(),
+                Section::make('Details')
+                    ->schema([
+                        TextInput::make('age')
+                            ->required(),
+                        TextInput::make('height')
+                            ->label('Height')
+                            ->numeric(), // Tight styles
+                        ToggleButtons::make('unit_height')
+                            ->label('Unit') // No extra label for toggle
+                            ->options([
+                                'imperial' => 'in',
+                                'metric' => 'cm',
+                            ])
+                            ->default('metric')
+                            ->grouped(),
+                        TextInput::make('goal_weight')
+                            ->label('Goal Weight')
+                            ->numeric(), // Compact
+                        ToggleButtons::make('unit_goal')
+                            ->label('Unit')
+                            ->options([
+                                'imperial' => 'lbs',
+                                'metric' => 'kg',
+                            ])
+                            ->default('metric')
+                            ->grouped(),
+                    ])
+                    ->aside(),
+
 
 
             ]);
