@@ -1,7 +1,7 @@
 
 <h1 style="text-align:center">WPLANNER</h1> 
 
-![alt](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6 "WPlanner Logo")
+![WPLANNER](https://drive.google.com/uc?id=1zQx2VrnJP9MEzH_OO65He1X0mkcx2uB6 "WPlanner Logo")
 
 Name: Jennifer Debono
 
@@ -13,7 +13,7 @@ Location: London, ON, Canada
 
 Date: December 29, 2024
 
-#### Video Demo:  <URL HERE>
+#### Video Demo:  [WPLANNER 2024](https://youtu.be/VEMLdgpWais)
 
 ## Description:
 
