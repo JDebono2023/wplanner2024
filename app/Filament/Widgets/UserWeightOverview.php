@@ -159,7 +159,7 @@ class UserWeightOverview extends BaseWidget
 
                 return $progress ? $progress->bmi : 'N/A';
             })
-                ->description('Hover over the icon for chart details')
+                // ->description('Hover over the icon for chart details')
                 ->descriptionIcon('heroicon-m-information-circle')
                 ->extraAttributes([
                     'class' => 'cursor-pointer',
@@ -183,15 +183,6 @@ class UserWeightOverview extends BaseWidget
                             return 'Overweight';
                         } else {
                             return 'Obesity';
-                        }
-                    })()
-                )
-                ->descriptionIcon(
-                    $description = (function () {
-                        $progress = Progress::where('user_id', Auth::id())->orderBy('created_at', 'desc')->first();
-
-                        if (!$progress) {
-                            return 'heroicon-o-minus-circle';
                         }
                     })()
                 )
