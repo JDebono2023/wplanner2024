@@ -18,9 +18,9 @@ return new class extends Migration
             $table->enum('unit_current', ['imperial', 'metric']);
             $table->float('goal_weight');
             $table->enum('unit_goal', ['imperial', 'metric']);
-            $table->float('hips');
-            $table->float('waist');
-            $table->float('chest');
+            $table->float('hips')->nullable();
+            $table->float('waist')->nullable();
+            $table->float('chest')->nullable();
             $table->float('bmi')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();

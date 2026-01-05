@@ -18,14 +18,32 @@ class UserWeightOverview extends BaseWidget
 
     protected function getStats(): array
     {
+
         return [
             Stat::make('Goal Weight', function () {
                 $progress = User::where('id', Auth::id())->orderBy('created_at', 'desc')->first();
 
-                return $progress
-                    ? "{$progress->goal_weight} " . ($progress->unit_goal === 'metric' ? 'm' : 'lbs')
+                return $progress && !is_null($progress->goal_weight)
+                    ? "{$progress->goal_weight} " . ($progress->unit_goal === 'metric' ? 'kg' : 'lbs')
                     : 'N/A';
-            }),
+            })->description(
+                (function () {
+                    $progress = User::where('id', Auth::id())->orderBy('created_at', 'desc')->first();
+
+                    // Determine the description text
+                    if (is_null($progress->goal_weight)) {
+                        return 'No previous data';
+                    }
+                })()
+            )->descriptionIcon(
+                $description = (function () {
+                    $progress = User::where('id', Auth::id())->orderBy('created_at', 'desc')->first();
+
+                    if (!$progress->goal_weight) {
+                        return 'heroicon-o-minus-circle';
+                    }
+                })()
+            ),
 
 
             Stat::make('Current Weight', function () {
@@ -40,10 +58,14 @@ class UserWeightOverview extends BaseWidget
                 ->description(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->where('created_at', '<', $progress->created_at) // Only execute if $progress->created_at exists
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentWeight = optional($progress)->current_weight;
                         $previousWeight = optional($previousProgress)->current_weight;
@@ -67,10 +89,14 @@ class UserWeightOverview extends BaseWidget
                 )->descriptionIcon(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->where('created_at', '<', $progress->created_at) // Only execute if $progress->created_at exists
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentWeight = optional($progress)->current_weight;
                         $previousWeight = optional($previousProgress)->current_weight;
@@ -82,7 +108,7 @@ class UserWeightOverview extends BaseWidget
 
                         // Determine the icon
                         if (is_null($weightDifference)) {
-                            return 'heroicon-o-information-circle'; // Icon for no data
+                            return 'heroicon-o-minus-circle'; // Icon for no data
                         }
 
                         return $weightDifference > 0
@@ -95,10 +121,14 @@ class UserWeightOverview extends BaseWidget
                 ->color(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->where('created_at', '<', $progress->created_at) // Only execute if $progress->created_at exists
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentWeight = optional($progress)->current_weight;
                         $previousWeight = optional($previousProgress)->current_weight;
@@ -124,16 +154,12 @@ class UserWeightOverview extends BaseWidget
                     ->toArray()),
 
 
-
-
-
-
             Stat::make('BMI', function () {
                 $progress = Progress::where('user_id', Auth::id())->orderBy('created_at', 'desc')->first();
 
                 return $progress ? $progress->bmi : 'N/A';
             })
-                ->description('Hover over the icon for chart details')
+                // ->description('Hover over the icon for chart details')
                 ->descriptionIcon('heroicon-m-information-circle')
                 ->extraAttributes([
                     'class' => 'cursor-pointer',
@@ -144,7 +170,7 @@ class UserWeightOverview extends BaseWidget
                         $progress = Progress::where('user_id', Auth::id())->orderBy('created_at', 'desc')->first();
 
                         if (!$progress) {
-                            return 'No Data';
+                            return 'No previous data';
                         }
 
                         $bmi = $progress->bmi;

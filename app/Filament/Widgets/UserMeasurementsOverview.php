@@ -29,11 +29,15 @@ class UserMeasurementsOverview extends BaseWidget
                 ->description(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('hips')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('hips')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('hips')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentHips = optional($progress)->hips;
                         $previousHips = optional($previousProgress)->hips;
@@ -57,11 +61,14 @@ class UserMeasurementsOverview extends BaseWidget
                 )->descriptionIcon(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('hips')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('hips')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('hips')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentHips = optional($progress)->hips;
                         $previousHips = optional($previousProgress)->hips;
@@ -73,7 +80,7 @@ class UserMeasurementsOverview extends BaseWidget
 
                         // Determine the icon
                         if (is_null($hipsDifference)) {
-                            return 'heroicon-o-information-circle'; // Icon for no data
+                            return 'heroicon-o-minus-circle'; // Icon for no data
                         }
 
                         return $hipsDifference > 0
@@ -86,11 +93,15 @@ class UserMeasurementsOverview extends BaseWidget
                 ->color(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('hips')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('hips')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('hips')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentHips = optional($progress)->hips;
                         $previousHips = optional($previousProgress)->hips;
@@ -127,11 +138,15 @@ class UserMeasurementsOverview extends BaseWidget
                 ->description(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('waist')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('waist')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('waist')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentWaist = optional($progress)->waist;
                         $previousWaist = optional($previousProgress)->waist;
@@ -155,11 +170,15 @@ class UserMeasurementsOverview extends BaseWidget
                 )->descriptionIcon(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('waist')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('waist')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('waist')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentWaist = optional($progress)->waist;
                         $previousWaist = optional($previousProgress)->waist;
@@ -171,7 +190,7 @@ class UserMeasurementsOverview extends BaseWidget
 
                         // Determine the icon
                         if (is_null($waistDifference)) {
-                            return 'heroicon-o-information-circle'; // Icon for no data
+                            return 'heroicon-o-minus-circle'; // Icon for no data
                         }
 
                         return $waistDifference > 0
@@ -184,11 +203,15 @@ class UserMeasurementsOverview extends BaseWidget
                 ->color(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('waist')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('waist')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('waist')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentWaist = optional($progress)->waist;
                         $previousWaist = optional($previousProgress)->waist;
@@ -225,11 +248,15 @@ class UserMeasurementsOverview extends BaseWidget
                 ->description(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('chest')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('chest')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('chest')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentChest = optional($progress)->chest;
                         $previousChest = optional($previousProgress)->chest;
@@ -253,11 +280,15 @@ class UserMeasurementsOverview extends BaseWidget
                 )->descriptionIcon(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('chest')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('chest')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('chest')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentChest = optional($progress)->chest;
                         $previousChest = optional($previousProgress)->chest;
@@ -269,7 +300,7 @@ class UserMeasurementsOverview extends BaseWidget
 
                         // Determine the icon
                         if (is_null($chestDifference)) {
-                            return 'heroicon-o-information-circle'; // Icon for no data
+                            return 'heroicon-o-minus-circle'; // Icon for no data
                         }
 
                         return $chestDifference > 0
@@ -282,11 +313,15 @@ class UserMeasurementsOverview extends BaseWidget
                 ->color(
                     (function () {
                         $progress = Progress::where('user_id', Auth::id())->whereNotNull('chest')->orderBy('created_at', 'desc')->first();
-                        $previousProgress = Progress::where('user_id', Auth::id())
-                            ->whereNotNull('chest')
-                            ->where('created_at', '<', optional($progress)->created_at)
-                            ->orderBy('created_at', 'desc')
-                            ->first();
+
+                        $previousProgress = null;
+                        if ($progress) {
+                            $previousProgress = Progress::where('user_id', Auth::id())
+                                ->whereNotNull('chest')
+                                ->where('created_at', '<', $progress->created_at)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+                        }
 
                         $currentChest = optional($progress)->chest;
                         $previousChest = optional($previousProgress)->chest;

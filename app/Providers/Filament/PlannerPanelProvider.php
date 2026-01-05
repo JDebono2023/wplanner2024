@@ -7,11 +7,13 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Facades\Filament;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Colors\Color;
 use App\Filament\Pages\Auth\CustomLogin;
 use App\Filament\Pages\Auth\EditProfile;
 use Filament\Http\Middleware\Authenticate;
+use LaraZeus\Popover\Tables\PopoverColumn;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -42,18 +44,14 @@ class PlannerPanelProvider extends PanelProvider
             ->breadcrumbs(false)
             ->viteTheme('resources/css/filament/wplanner/theme.css')
             ->colors([
-                // 'danger' => Color::Rose,
-                // 'gray' => '#545454',
-                // 'info' => Color::Blue,
                 'primary' => '#145da0',
-                'blue' => Color::Blue,
-
-                // 'success' => Color::Emerald,
-                // 'warning' => Color::Orange,
             ])
             ->font('Poppins')
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label(fn() => auth()->user()->name ?? 'Profile'),
+            ])
             ->plugins([
-                FilamentApexChartsPlugin::make()
+                // FilamentApexChartsPlugin::make(),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

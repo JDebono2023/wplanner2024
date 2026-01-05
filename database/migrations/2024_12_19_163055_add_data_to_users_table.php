@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('age')->after('name')->default(45);
-            $table->integer('height')->default(157);
+            $table->string('age')->after('name');
+            $table->integer('height');
         });
     }
 

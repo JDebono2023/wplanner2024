@@ -42,10 +42,12 @@ class ScheduleResource extends Resource
     protected static ?string $modelLabel = 'Schedule';
     protected static ?int $navigationSort = 2;
 
-    // collect the records from today onwards
+    // collect the records from today onwards for the logged in user
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('date', '>=', Carbon::now()->toDateString());
+        return parent::getEloquentQuery()
+            ->where('user_id', auth()->id()) // Filter by logged-in user
+            ->where('date', '>=', Carbon::now()->toDateString()); // Filter by today onwards
     }
 
     public static function form(Form $form): Form
@@ -159,60 +161,54 @@ class ScheduleResource extends Resource
                 CreateAction::make()
                     ->label('Schedule A Workout')
                     ->createAnother(false),
-
             ])
-            // grouping for primary sort to display schedule items by date
+            // grouping for primary sort to display schedule items
             ->groups([
-                Group::make('library.name')
-                    ->label('Workout')
+                Group::make('library.sources.name')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+                Group::make('library.mainTypes.name')
+                    ->label('Category')
+                    ->titlePrefixedWithLabel(false)
+                    ->collapsible(),
+                Group::make('library.secondTypes.name')
+                    ->label('Subcategory')
+                    ->titlePrefixedWithLabel(false)
                     ->collapsible(),
                 Group::make('date')
                     ->date('M-d-o')
+                    ->titlePrefixedWithLabel(false)
                     ->collapsible()
             ])
+            ->groupingSettingsInDropdownOnDesktop()
             ->defaultGroup(Group::make('date')
-                ->date('M-d-o'))
+                ->date('M-d-o')
+                ->titlePrefixedWithLabel(false)
+                ->collapsible())
             ->columns([
-                // split column display
                 Split::make([
                     ImageColumn::make('library.image')
                         ->height(50)
-                        ->defaultImageUrl(url('storage/images/wplanner_noimg.png')),
+                        ->defaultImageUrl(url('storage/images/wplanner_noimg.png'))
+                        ->grow(false),
                     Stack::make([
-                        TextColumn::make('library.name')
-                            ->searchable(),
-                    ]),
-                    Stack::make([
-                        TextColumn::make('date')
-                            ->date(),
-                        TextColumn::make('time')
-                            ->time('g:i a'),
+                        Split::make([
+                            TextColumn::make('library.name')
+                                ->searchable(),
+                            TextColumn::make('date')
+                                ->date(),
+                            TextColumn::make('time')
+                                ->time('g:i a'),
+                        ])->from('sm'),
                     ]),
                 ]),
-
-            ])
-            // responsive control
-            ->contentGrid([
-                'md' => 2,
-                'lg' => 2
             ])
             ->filters([
-                // filter by library item name and types
-                SelectFilter::make('Name')
-                    ->relationship('library', 'name')
-                    ->preload(),
-                SelectFilter::make('Category')
-                    ->relationship('library.mainTypes', 'name')
-                    ->searchable()
-                    ->preload(),
-                SelectFilter::make('Subcategory')
-                    ->relationship('library.secondTypes', 'name')
-                    ->searchable()
-                    ->preload()
-
+                // 
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
